@@ -1,24 +1,63 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Install
 
-Things you may want to cover:
+### Clone the repository
 
-* Ruby version
+```bash
+git clone https://github.com/shimroz1992/movie_rating.git
+cd movie_rating
 
-* System dependencies
+```
 
-* Configuration
+### Check your Ruby version
 
-* Database creation
+```bash
+ruby -v
+```
 
-* Database initialization
+The output should start with something like `ruby 3.0.0`
 
-* How to run the test suite
+If not, install the right ruby version using rvm (it could take a while):
 
-* Services (job queues, cache servers, search engines, etc.)
+```bash
+rvm install "ruby-3.0.0"
+```
 
-* Deployment instructions
+### Install dependencies
 
-* ...
+Using [Bundler](https://github.com/bundler/bundler):
+
+```bash
+bundle
+```
+
+### Update database.yml file
+In database.yml file, edit the database configuration as required.
+
+### Initialize the database
+
+```ruby
+rails db:create db:migrate
+```
+
+### Run rake task to import movies and review
+
+```ruby
+rake import:movies
+rake import:import_reviews
+```
+
+### Start rails server
+
+```ruby
+rails s
+```
+And now you can visit the site with the URL http://localhost:3000
+
+### Run rspec
+In order to run spec run the below command
+
+```bash
+rspec
+```
