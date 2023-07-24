@@ -1,0 +1,58 @@
+<div class="container py-5">
+  <header class="text-center mb-5">
+    <div class="input-group mb-3">
+  <div class="form-outline">
+    <%= form_tag(movies_path, method: :get) do %>
+      <%= text_field_tag :actor_name, params[:actor_name], class: 'form-control', placeholder: 'Search by Actor' %>
+    <% end %>
+    <%= link_to "Sort Ascending", movies_path(sort: 'asc'), class: "btn btn-primary" %>
+    <%= link_to "Sort Descending", movies_path(sort: 'desc'), class: "btn btn-primary" %>
+
+  </div>
+  <button type="submit" class="btn btn-primary">
+    <i class="fas fa-search"></i>
+  </button>
+</div>
+
+    <h1 class="display-4 font-weight-bold">Movies review</h1>
+  </header>
+  <h2 class="font-weight-bold mb-2">Movies with Reviews</h2>
+  <% @movies.in_groups_of(4).each do |movies_data| %>
+    <div class="row pb-5 mb-4">
+      <% movies_data.compact.each do |data| %>
+        <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+          <!-- Card-->
+          <div class="card rounded shadow-sm border-0">
+            <div class="card-body p-4"><img src="https://bootstrapious.com/i/snippets/sn-cards/shoes-4_vgfjy9.jpg" alt="" class="img-fluid d-block mx-auto mb-3">
+              <h5>Title:<a href="#" class="text-dark"><%= data.title %></a></h5>
+              <h6>Year:<a href="#" class="text-dark"><%= data.movie_year %></a></h5>
+              <h6>Actor:<a href="#" class="text-dark"><%= data.actor %></a></h5>
+              <h6>Director:<a href="#" class="text-dark"><%= data.director %></a></h5>
+
+              <p class="small text-muted font-italic"><%= data.description%></p>
+              <%= form_tag(rate_movie_path(data), method: :post, remote: true) do %>
+                <%= rating_for data, "review" %>
+                <%= label_tag :comment, "Review Comment:" %>
+                <%= text_area_tag :comment , nil, class: 'form-control' %>
+                <%= submit_tag "Rate" %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <%end%>
+    </div>
+  <%end%>
+</div>
+<script>
+  // jQuery script to toggle the sorting links
+  $(document).ready(function() {
+    $("a.btn").on("click", function(e) {
+      e.preventDefault();
+      var sortParam = $(this).attr("href").split("=")[1];
+      var newSort = sortParam === "asc" ? "desc" : "asc";
+      $(this).attr("href", $(this).attr("href").replace(sortParam, newSort));
+      $(this).text("Sort " + (newSort === "asc" ? "Ascending" : "Descending"));
+      window.location.href = $(this).attr("href");
+    });
+  });
+</script>
