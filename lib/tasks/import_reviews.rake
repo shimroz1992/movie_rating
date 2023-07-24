@@ -8,13 +8,9 @@ namespace :import do
     file_path = 'public/temp_csv/reviews.csv'  # Replace with the actual path to your CSV file
 
     CSV.foreach(file_path, headers: true) do |row|
-      # review_data = row.to_h.slice('review_comment', 'quality_rating', 'price_rating', 'value_rating')
-      # Create or find the movie based on the name
       movie = Movie.find_or_create_by(title: row['Movie'])
-      debugger
       user = User.find_or_create_by_name(row['User'])
-      # Save the movie and its reviews
-      review = movie.review_rates.build(rater_id: User.last.id, stars: row['Stars'], comments: row['Review'])
+      review = movie.review_rates.build(rater_id: user.id, stars: row['Stars'], comments: row['Review'])
       if review.save
         puts "Movie '#{review.id}' and review saved successfully."
       else

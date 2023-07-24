@@ -5,8 +5,8 @@ class User < ApplicationRecord
   :recoverable, :rememberable, :validatable
   ratyrate_rater
   def self.find_or_create_by_name(name)
-    user =  User.find_by(full_name:  name)
-    user.present? ? user : User.create(full_name: name, email: generate_temp_email)
+    user =  User.find_by(full_name: name)
+    user.present? ? user : User.create(full_name: name, email: generate_temp_email, password: 123456)
   end
 
   def self.generate_temp_email
